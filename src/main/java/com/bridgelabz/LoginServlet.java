@@ -18,8 +18,17 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+
         String user = request.getParameter("user");
         String pwd = request.getParameter("pwd");
+
+        if (!user.matches("[A-Z][a-zA-Z]{2,}")) {
+            out.println("<h3 style='color:red'>Invalid Name</h3>");
+            request.getRequestDispatcher("login.html").include(request, response);
+            return;
+        }
 
         String dbUser = getServletConfig().getInitParameter("user");
         String dbPwd = getServletConfig().getInitParameter("password");
@@ -29,7 +38,6 @@ public class LoginServlet extends HttpServlet {
             request.getRequestDispatcher("LoginSuccess.jsp")
                     .forward(request, response);
         } else {
-            PrintWriter out = response.getWriter();
             out.println("<h3 style='color:red'>Invalid Credentials</h3>");
             request.getRequestDispatcher("login.html")
                     .include(request, response);
