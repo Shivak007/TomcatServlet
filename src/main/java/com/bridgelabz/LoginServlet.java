@@ -10,7 +10,7 @@ import java.io.PrintWriter;
         urlPatterns = "/LoginServlet",
         initParams = {
                 @WebInitParam(name = "user", value = "Sriram"),
-                @WebInitParam(name = "password", value = "BridgeLabz")
+                @WebInitParam(name = "password", value = "Bridge@1")
         }
 )
 public class LoginServlet extends HttpServlet {
@@ -26,6 +26,12 @@ public class LoginServlet extends HttpServlet {
 
         if (!user.matches("[A-Z][a-zA-Z]{2,}")) {
             out.println("<h3 style='color:red'>Invalid Name</h3>");
+            request.getRequestDispatcher("login.html").include(request, response);
+            return;
+        }
+
+        if (!pwd.matches("^(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!]).{8,}$")) {
+            out.println("<h3 style='color:red'>Invalid Password</h3>");
             request.getRequestDispatcher("login.html").include(request, response);
             return;
         }
